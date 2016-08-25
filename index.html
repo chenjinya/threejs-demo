@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Three框架</title>
+        <script src="./three.js"></script>
+        <script src="./stats.min.js"></script>
+        <style type="text/css">
+            
+        </style>
+        
+    </head>
+
+    <body>
+        <script>
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setClearColor( 0xEEEEEE, 1 );
+            document.body.appendChild( renderer.domElement );
+            var stats = new Stats();
+                stats.domElement.style.position = 'absolute';
+                stats.domElement.style.left = '0px';
+                stats.domElement.style.top = '0px';
+            document.body.appendChild( stats.domElement );
+
+
+            var radius   = 5,
+                segments = 100,
+                material = new THREE.LineBasicMaterial( { color: 0x0000ff } ),
+                geometry = new THREE.CircleGeometry( radius, segments );
+
+            // Remove center vertex
+            geometry.vertices.shift();
+            var line = new THREE.Line( geometry, material );
+            scene.add( line );
+
+            // scene.add( cube );
+            helper = new THREE.GridHelper( 100, 100,0x0000ff ) ;
+
+            scene.add(helper);
+            camera.position.z = 100;
+            camera.position.y = 10;
+            camera.lookAt({
+                x: 0,
+                y: 0,
+                z: 0,
+            })
+            var render = function () {
+                requestAnimationFrame( render );
+                stats.update();
+
+                // line.rotation.x += 0.1;
+                // cube.rotation.y += 0.1;
+
+                renderer.render(scene, camera);
+            };
+
+            render();
+        </script>
+    </body>
+</html>
